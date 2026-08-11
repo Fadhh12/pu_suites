@@ -1,82 +1,137 @@
-@import url('https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Anton&family=Cookie&family=Poppins:wght@600&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
 
 :root {
-    --bg-text-shadow: 0 2px 4px rgb(13 0 77 / 8%), 0 3px 6px rgb(13 0 77 / 8%), 0 8px 16px rgb(13 0 77 / 8%);
-    --bg-box-shadow: 0px 0px 20px 6px rgba(26, 30, 164, 0.31);
-}
-*::-webkit-scrollbar{
-    width: .4rem;
-}
-*::-webkit-scrollbar-track{
-    background: rgb(6, 6, 44);
-}
-*::-webkit-scrollbar-thumb{
-    background: #0040ff;
-}
-
-body {
-    /* background-color: #ffff; */
+    --primary-color: #0ea5e9;
+    --success-color: #10b981;
+    --danger-color: #ef4444;
+    --warning-color: #f59e0b;
+    --card-bg: #ffffff;
+    --bg-color: #f1f5f9;
+    --text-color: #334155;
+    --text-muted: #64748b;
+    --border-color: #e2e8f0;
+    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    --radius-lg: 12px;
 }
 
 * {
     margin: 0;
     padding: 0;
+    box-sizing: border-box;
     font-family: 'Poppins', sans-serif;
-    /* text-shadow: var(--bg-text-shadow); */
 }
 
-.databox{
+body {
+    background-color: transparent; /* Parent iframe controls bg */
+    padding: 30px;
+    color: var(--text-color);
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+
+/* Dashboard Cards */
+.databox {
     width: 100%;
-    display: flex;
-    justify-content: space-evenly;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 25px;
+    margin-bottom: 30px;
 }
 
-.databox .box{
-    height: 200px;
-    width: 380px;
-    margin: 20px 0;
-    background-color: #ccdff4;
-    border-radius: 10px;
+.databox .box {
+    background-color: var(--card-bg);
+    border-radius: var(--radius-lg);
+    padding: 25px;
+    box-shadow: var(--shadow-sm);
     display: flex;
-    justify-content: center;
-    align-items: center;
     flex-direction: column;
-}
-.databox .box h1{
-    font-size: 80px;
-    font-family: 'Hind Siliguri', sans-serif;
-    color: rgb(20, 20, 83);
-}
-.box:nth-child(1){
-    border-bottom: 8px solid red;
-}
-.box:nth-child(2){
-    border-bottom: 8px solid rgba(0, 255, 68, 0.814);
-}
-.box:nth-child(3){
-    border-bottom: 8px solid rgb(51, 0, 255);
+    justify-content: center;
+    border: 1px solid var(--border-color);
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-/* chart */
-.chartbox{
+.databox .box:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+.databox .box::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 4px;
+    height: 100%;
+}
+
+.databox .box h2 {
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 10px;
+}
+
+.databox .box h1 {
+    font-size: 36px;
+    font-weight: 600;
+    color: var(--text-color);
+}
+
+.databox .box h1 span {
+    font-size: 24px;
+    color: var(--text-muted);
+}
+
+/* Specific Card Colors */
+.roombookbox::before { background-color: var(--primary-color); }
+.guestbox::before { background-color: var(--success-color); }
+.profitbox::before { background-color: var(--warning-color); }
+
+/* Charts Section */
+.chartbox {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 25px;
+}
+
+@media (max-width: 1100px) {
+    .chartbox {
+        grid-template-columns: 1fr;
+    }
+}
+
+.bookroomchart, .profitchart {
+    background-color: var(--card-bg);
+    border-radius: var(--radius-lg);
+    padding: 25px;
+    box-shadow: var(--shadow-sm);
+    border: 1px solid var(--border-color);
+}
+
+.chartbox h3 {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--text-color);
+    margin-bottom: 20px !important;
+    text-align: left !important;
+}
+
+/* Adjust canvas size within container */
+#bookroomchart {
+    max-height: 250px;
+    margin: 0 auto;
+}
+
+#profitchart {
+    height: 300px;
     width: 100%;
-    display: flex;
-    justify-content: space-evenly;
 }
-
-.profitchart{
-    width: 660px;
-    background-color: #ccdff4;
-    padding: 10px;
-    border-radius: 10px;
-}
-
-.bookroomchart{
-    width: 330px;
-    padding:10px 80px;
-    background-color: #ccdff4;
-    border-radius: 10px;
-}
-
-
