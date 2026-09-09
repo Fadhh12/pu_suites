@@ -1,8 +1,11 @@
-/* 
+/*
    PU SUITES - Premium Hotel CSS
-   Focus: Elegance, Smoothness, Professionalism 
+   Focus: Elegance, Smoothness, Professionalism
 */
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Poppins:wght@300;400;500;600&display=swap');
+/* Google Fonts are loaded via a <link> tag in each page's <head>, not an
+   @import here -- @import blocks CSS parsing on a second round-trip that
+   the browser can't discover early, and every page was paying for the
+   font twice (once via this @import, once via its own <link>). */
 
 :root {
     --primary-color: #c5a880; /* Elegant Gold */
@@ -690,6 +693,20 @@ h1, h2, h3, h4, h5, h6 {
     bottom: 0;
 }
 
+/* Touch devices have no :hover, so the caption above would stay parked at
+   bottom:-50px (clipped by overflow:hidden) forever -- the facility photos
+   would show with no label at all on phones/tablets. Pin it in place
+   whenever there's no hover capability, regardless of screen width. */
+@media (hover: none) {
+    .facility-overlay {
+        bottom: 0;
+        background: linear-gradient(transparent, rgba(0,0,0,0.85) 60%);
+    }
+    .facility-box::before {
+        background: rgba(0,0,0,0.15);
+    }
+}
+
 .facility-overlay h3 {
     margin: 0;
     font-family: var(--font-heading);
@@ -1273,5 +1290,14 @@ footer {
         width: 46px;
         height: 46px;
         font-size: 19px;
+    }
+    /* auto-fit collapses both grids to a single column on a phone --
+       the fixed desktop heights made every room/facility photo taller
+       than it needed to be, pushing the real content far down the page. */
+    .room-image {
+        height: 150px;
+    }
+    .facility-box {
+        height: 190px;
     }
 }

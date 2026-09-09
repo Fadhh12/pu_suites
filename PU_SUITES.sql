@@ -20,11 +20,27 @@ CREATE TABLE `staff` (
 CREATE TABLE `emp_login` (
   `empid` int(100) NOT NULL AUTO_INCREMENT,
   `Emp_Email` varchar(50) NOT NULL,
-  `Emp_Password` varchar(50) NOT NULL,
+  -- Holds a password_hash() bcrypt hash (~60 chars), not a plaintext
+  -- password -- login.php verifies it with password_verify(). Sized to
+  -- 255 to leave headroom for future hash algorithms.
+  `Emp_Password` varchar(255) NOT NULL,
   `staff_id` int(30) DEFAULT NULL,
   PRIMARY KEY (`empid`),
   KEY `fk_emp_staff` (`staff_id`),
   CONSTRAINT `fk_emp_staff` FOREIGN KEY (`staff_id`) REFERENCES `staff` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- Failed admin login attempts, used by login.php to lock an IP out for a
+-- few minutes after repeated bad passwords (there was no brute-force
+-- protection at all before -- the login form could be hammered
+-- indefinitely). Rows older than the lockout window are cheap to
+-- accumulate at this site's scale; login.php prunes old rows as it goes.
+CREATE TABLE `login_attempts` (
+  `id` int(10) NOT NULL AUTO_INCREMENT,
+  `ip` varchar(45) NOT NULL,
+  `attempted_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  KEY `ip_time` (`ip`, `attempted_at`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 CREATE TABLE `room` (
@@ -92,8 +108,12 @@ CREATE TABLE `payment` (
 INSERT INTO `staff` (`id`, `name`, `work`) VALUES
 (1, 'Admin Name', 'Manager');
 
+-- Seed login: Admin@gmail.com / ChangeMe#PU2026 (bcrypt hash below).
+-- This is a placeholder for a fresh install only -- change it (see
+-- README/security report) before the site is public. Generate your own
+-- hash with: php -r "echo password_hash('yourpassword', PASSWORD_BCRYPT);"
 INSERT INTO `emp_login` (`empid`, `Emp_Email`, `Emp_Password`, `staff_id`) VALUES
-(1, 'Admin@gmail.com', '1234', 1);
+(1, 'Admin@gmail.com', '$2y$10$3c3Kosc64wY14dGrOdGITegx825HGtCpzXGHU64bIquEjEcIOfW7i', 1);
 
 INSERT INTO `room` (`id`, `type`, `bedding`) VALUES
 (4, 'Superior Room', 'Single'),

@@ -11,18 +11,22 @@ include 'config.php';
     <meta name="description" content="Get in touch with PU SUITES or book your room directly. Find our location, phone, email, and a full reservation form.">
     <meta name="theme-color" content="#111111">
     <link rel="icon" type="image/png" href="./image/President_University_Logo.png">
-    <link rel="stylesheet" href="./css/home.css?v=3">
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="./css/home.css?v=4">
     <title>Contact & Booking - PU SUITES</title>
     <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- FontAwesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"/>
-    <!-- Sweet Alert -->
-    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
     <!-- AOS Animation -->
     <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+    <!-- Sweet Alert -- deferred, only used after DOMContentLoaded -->
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js" defer></script>
     <style>
         .contact-header {
             height: 25vh;

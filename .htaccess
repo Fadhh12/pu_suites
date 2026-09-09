@@ -1,0 +1,58 @@
+# PU SUITES -- server hardening & performance
+# All directives are wrapped in <IfModule> so a shared host missing one
+# module (common on free hosting) doesn't take the whole site down.
+
+# --- Never allow directory listings ---
+Options -Indexes
+
+# --- Block direct access to source/dev files that have no reason to be
+#     served over HTTP, in case they ever end up in the web root (repo
+#     dumps, DB exports, setup scripts, docs, VCS metadata). Both syntaxes
+#     are guarded by <IfModule> so a host with only one of the two Apache
+#     access-control APIs still applies the block instead of erroring. ---
+<IfModule mod_authz_core.c>
+    <FilesMatch "\.(sql|sh|md|markdown|docx?|xlsx?|log|bak|backup|zip|tar|gz|env|gitignore|gitattributes)$">
+        Require all denied
+    </FilesMatch>
+</IfModule>
+<IfModule !mod_authz_core.c>
+    <FilesMatch "\.(sql|sh|md|markdown|docx?|xlsx?|log|bak|backup|zip|tar|gz|env|gitignore|gitattributes)$">
+        Order allow,deny
+        Deny from all
+    </FilesMatch>
+</IfModule>
+
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    # Block access to dotfiles/dot-directories (.git, .htaccess itself, etc.)
+    RewriteCond %{SCRIPT_FILENAME} -f
+    RewriteCond %{SCRIPT_FILENAME} "/\."
+    RewriteRule "(^|/)\." - [F]
+</IfModule>
+
+# --- Security headers ---
+<IfModule mod_headers.c>
+    Header set X-Content-Type-Options "nosniff"
+    # SAMEORIGIN, not DENY -- admin/admin.php embeds its own pages
+    # (dashboard.php, roombook.php, payment.php, room.php, staff.php) in
+    # same-origin iframes, which DENY would break.
+    Header set X-Frame-Options "SAMEORIGIN"
+    Header set Referrer-Policy "strict-origin-when-cross-origin"
+    Header set Permissions-Policy "geolocation=(), camera=(), microphone=()"
+</IfModule>
+
+# --- Compression ---
+<IfModule mod_deflate.c>
+    AddOutputFilterByType DEFLATE text/html text/css text/javascript application/javascript application/json text/plain image/svg+xml
+</IfModule>
+
+# --- Browser caching for static assets ---
+<IfModule mod_expires.c>
+    ExpiresActive On
+    ExpiresByType image/jpeg "access plus 1 month"
+    ExpiresByType image/png "access plus 1 month"
+    ExpiresByType image/webp "access plus 1 month"
+    ExpiresByType image/svg+xml "access plus 1 month"
+    ExpiresByType text/css "access plus 1 week"
+    ExpiresByType application/javascript "access plus 1 week"
+</IfModule>

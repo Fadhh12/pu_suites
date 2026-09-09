@@ -13,23 +13,85 @@ function prepareAndExecute($conn, $sql, $params)
     return $stmt;
 }
 
+// Brute-force throttle: lock an IP out for 15 minutes after 5 failed
+// attempts. There was no limit at all before, so the login form could be
+// hammered by a script indefinitely. Fails open (skips throttling instead
+// of breaking login) if the login_attempts table hasn't been created yet
+// -- see the migration note in PU_SUITES.sql -- so this doesn't lock
+// everyone out on a site that hasn't run it.
+const LOGIN_MAX_ATTEMPTS = 5;
+const LOGIN_LOCKOUT_MINUTES = 15;
+
+function recentFailedAttempts($conn, $ip)
+{
+    $sql = "SELECT COUNT(*) AS c FROM login_attempts WHERE ip = ? AND attempted_at > (NOW() - INTERVAL " . LOGIN_LOCKOUT_MINUTES . " MINUTE)";
+    $stmt = @mysqli_prepare($conn, $sql);
+    if (!$stmt) {
+        return 0;
+    }
+    mysqli_stmt_bind_param($stmt, "s", $ip);
+    mysqli_stmt_execute($stmt);
+    $row = mysqli_fetch_assoc(mysqli_stmt_get_result($stmt));
+    return (int) ($row['c'] ?? 0);
+}
+
+function recordFailedAttempt($conn, $ip)
+{
+    $stmt = @mysqli_prepare($conn, "INSERT INTO login_attempts (ip) VALUES (?)");
+    if ($stmt) {
+        mysqli_stmt_bind_param($stmt, "s", $ip);
+        mysqli_stmt_execute($stmt);
+    }
+    // Housekeeping: drop attempts old enough to no longer matter, so the
+    // table doesn't grow forever.
+    @mysqli_query($conn, "DELETE FROM login_attempts WHERE attempted_at < (NOW() - INTERVAL " . (LOGIN_LOCKOUT_MINUTES * 4) . " MINUTE)");
+}
+
+function clearFailedAttempts($conn, $ip)
+{
+    $stmt = @mysqli_prepare($conn, "DELETE FROM login_attempts WHERE ip = ?");
+    if ($stmt) {
+        mysqli_stmt_bind_param($stmt, "s", $ip);
+        mysqli_stmt_execute($stmt);
+    }
+}
+
 if (isset($_POST['Emp_login_submit'])) {
     $email = $_POST['Emp_Email'];
     $password = $_POST['Emp_Password'];
-    $sql = "SELECT * FROM emp_login WHERE Emp_Email = ? AND Emp_Password = BINARY ?";
-    $stmt = prepareAndExecute($conn, $sql, [$email, $password]);
-    $result = $stmt->get_result();
+    $ip = $_SERVER['REMOTE_ADDR'] ?? 'unknown';
 
-    if ($result->num_rows > 0) {
-        $_SESSION['usermail'] = $email;
-        header("Location: admin/admin.php");
-        exit();
-    } else {
+    if (recentFailedAttempts($conn, $ip) >= LOGIN_MAX_ATTEMPTS) {
         echo "<script>
             document.addEventListener('DOMContentLoaded', function() {
-                swal({ title: 'Invalid Credentials', text: 'Please check your email and password.', icon: 'error' });
+                swal({ title: 'Too many attempts', text: 'Please wait a few minutes before trying again.', icon: 'warning' });
             });
         </script>";
+    } else {
+        // Look the account up by email only, then verify the password
+        // against its bcrypt hash with password_verify() -- previously
+        // this compared the submitted password to Emp_Password in plain
+        // text (BINARY =), which meant every staff password was stored in
+        // the database completely unencrypted.
+        $sql = "SELECT Emp_Password FROM emp_login WHERE Emp_Email = ?";
+        $stmt = prepareAndExecute($conn, $sql, [$email]);
+        $result = $stmt->get_result();
+        $row = $result->fetch_assoc();
+
+        if ($row && password_verify($password, $row['Emp_Password'])) {
+            clearFailedAttempts($conn, $ip);
+            session_regenerate_id(true); // rotate the session ID on login so a pre-login session can't be hijacked (session fixation)
+            $_SESSION['usermail'] = $email;
+            header("Location: admin/admin.php");
+            exit();
+        } else {
+            recordFailedAttempt($conn, $ip);
+            echo "<script>
+                document.addEventListener('DOMContentLoaded', function() {
+                    swal({ title: 'Invalid Credentials', text: 'Please check your email and password.', icon: 'error' });
+                });
+            </script>";
+        }
     }
 }
 ?>
@@ -40,10 +102,13 @@ if (isset($_POST['Emp_login_submit'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="robots" content="noindex, nofollow">
     <link rel="icon" type="image/png" href="./image/President_University_Logo.png">
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <title>Admin Portal - PU SUITES</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
-    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js" defer></script>
     <style>
         body { 
             background: linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%);

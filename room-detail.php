@@ -118,7 +118,11 @@ $room = $rooms[$type];
     <meta name="description" content="<?php echo htmlspecialchars($room['name']); ?> at PU SUITES - <?php echo htmlspecialchars($room['tagline']); ?>. View photos, amenities, and book your stay.">
     <meta name="theme-color" content="#111111">
     <link rel="icon" type="image/png" href="./image/President_University_Logo.png">
-    <link rel="stylesheet" href="./css/home.css?v=3">
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="./css/home.css?v=4">
     <title><?php echo htmlspecialchars($room['name']); ?> - PU SUITES</title>
     <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">

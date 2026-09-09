@@ -17,19 +17,27 @@ include 'config.php';
     <meta property="og:type" content="website">
     <meta property="og:image" content="./image/hotel1.jpg">
     <link rel="icon" type="image/png" href="./image/President_University_Logo.png">
+    <!-- Warm up the CDNs used below so their connections aren't started cold
+         the moment the parser reaches each tag -- shaves the DNS/TLS
+         handshake off the critical path for first paint. -->
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preload" as="image" href="./image/hotel1.jpg" fetchpriority="high">
-    <link rel="stylesheet" href="./css/home.css?v=3">
+    <link rel="stylesheet" href="./css/home.css?v=4">
     <title>PU SUITES - Luxury Hotel & Resort</title>
     <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <!-- FontAwesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A==" crossorigin="anonymous" referrerpolicy="no-referrer"/>
-    <!-- Sweet Alert -->
-    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
     <!-- AOS Animation -->
     <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+    <!-- Sweet Alert -- deferred so it can't block HTML parsing/first paint;
+         it's only ever invoked after DOMContentLoaded anyway. -->
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js" defer></script>
 </head>
 
 <body>
@@ -58,16 +66,16 @@ include 'config.php';
   <section id="firstsection" class="carousel slide carousel_section" data-bs-ride="carousel" data-bs-pause="false">
     <div class="carousel-inner">
         <div class="carousel-item active" data-bs-interval="4000">
-            <img class="carousel-image" src="./image/hotel1.jpg" alt="Hotel 1">
+            <img class="carousel-image" src="./image/hotel1.jpg" alt="Hotel 1" fetchpriority="high" decoding="async">
         </div>
         <div class="carousel-item" data-bs-interval="4000">
-            <img class="carousel-image" src="./image/hotel2.jpg" alt="Hotel 2">
+            <img class="carousel-image" src="./image/hotel2.jpg" alt="Hotel 2" loading="lazy" decoding="async">
         </div>
         <div class="carousel-item" data-bs-interval="4000">
-            <img class="carousel-image" src="./image/hotel3.jpg" alt="Hotel 3">
+            <img class="carousel-image" src="./image/hotel3.jpg" alt="Hotel 3" loading="lazy" decoding="async">
         </div>
         <div class="carousel-item" data-bs-interval="4000">
-            <img class="carousel-image" src="./image/hotel4.jpg" alt="Hotel 4">
+            <img class="carousel-image" src="./image/hotel4.jpg" alt="Hotel 4" loading="lazy" decoding="async">
         </div>
 
         <div class="hero-overlay"></div>

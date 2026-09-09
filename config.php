@@ -1,5 +1,18 @@
 <?php
 
+// Harden the session cookie before any session is started. config.php is
+// included before every session_start() call in the app (public pages
+// never start a session at all, so this is a no-op cost for them), so
+// this is the one place to set it that's guaranteed to run early enough.
+if (session_status() === PHP_SESSION_NONE) {
+    ini_set('session.use_strict_mode', '1');
+    ini_set('session.cookie_httponly', '1'); // JS (and any injected XSS payload) can't read the session cookie
+    ini_set('session.cookie_samesite', 'Lax'); // blocks the cookie being sent on cross-site form posts (CSRF)
+    if (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') {
+        ini_set('session.cookie_secure', '1'); // only send the cookie over HTTPS once the site is served on it
+    }
+}
+
 /*
  * Local development uses the defaults below (XAMPP/Laragon style: root, no
  * password, localhost). When you deploy to real hosting, either:
