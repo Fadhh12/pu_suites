@@ -9,6 +9,15 @@ include 'config.php';
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="PU SUITES is a luxury hotel & resort offering elegant rooms, a full-service spa, swimming pool, and fine dining. Book your unforgettable stay today.">
+    <meta name="theme-color" content="#111111">
+    <!-- Open Graph -->
+    <meta property="og:title" content="PU SUITES - Luxury Hotel & Resort">
+    <meta property="og:description" content="Experience unrivaled luxury. Elegant rooms, world-class facilities, and unforgettable stays at PU SUITES.">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="./image/hotel1.jpg">
+    <link rel="icon" type="image/png" href="./image/President_University_Logo.png">
+    <link rel="preload" as="image" href="./image/hotel1.jpg" fetchpriority="high">
     <link rel="stylesheet" href="./css/home.css">
     <title>PU SUITES - Luxury Hotel & Resort</title>
     <!-- Bootstrap -->
@@ -74,7 +83,7 @@ include 'config.php';
         <form action="" method="POST" class="guestdetailpanelform" data-aos="zoom-in" data-aos-duration="500">
             <div class="head">
                 <h3>RESERVATION</h3>
-                <i class="fa-solid fa-xmark close-btn" onclick="closebox()"></i>
+                <i class="fa-solid fa-xmark close-btn" onclick="closebox()" role="button" aria-label="Close reservation form" tabindex="0"></i>
             </div>
             <div class="middle">
                 <div class="guestinfo">

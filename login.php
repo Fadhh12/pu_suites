@@ -38,6 +38,8 @@ if (isset($_POST['Emp_login_submit'])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
+    <link rel="icon" type="image/png" href="./image/President_University_Logo.png">
     <title>Admin Portal - PU SUITES</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
@@ -89,6 +91,7 @@ if (isset($_POST['Emp_login_submit'])) {
             </div>
             <button type="submit" name="Emp_login_submit" class="btn-login mt-2">Secure Login</button>
         </form>
+        <a href="index.php" style="display: inline-block; margin-top: 20px; color: #94a3b8; font-size: 13px; text-decoration: none;">&larr; Back to website</a>
     </div>
 </body>
 </html>

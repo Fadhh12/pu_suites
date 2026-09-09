@@ -8,6 +8,9 @@ include 'config.php';
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Get in touch with PU SUITES or book your room directly. Find our location, phone, email, and a full reservation form.">
+    <meta name="theme-color" content="#111111">
+    <link rel="icon" type="image/png" href="./image/President_University_Logo.png">
     <link rel="stylesheet" href="./css/home.css">
     <title>Contact & Booking - PU SUITES</title>
     <!-- Bootstrap -->
@@ -221,7 +224,7 @@ include 'config.php';
       </div>
 
       <!-- Booking Form -->
-      <div class="booking-form-container" data-aos="fade-left">
+      <div class="booking-form-container" id="book" data-aos="fade-left">
           <h3>Book Your Stay</h3>
           
           <form action="" method="POST">
