@@ -180,7 +180,7 @@ include 'config.php';
     <div class="nav-cta">
       <a href="#book" class="btn-nav-book">Book Now</a>
       <button class="menu-toggle" onclick="toggleMenu()" aria-label="Toggle menu">
-        <i class="fa-solid fa-bars"></i>
+        <span class="hamburger-icon"></span>
       </button>
     </div>
   </nav>
@@ -387,8 +387,27 @@ include 'config.php';
   <script>
     AOS.init({ once: true, offset: 50 });
 
+    // Pre-select the room a visitor came from (e.g. room-detail.php's
+    // "Book This Room" button links here with ?room=Deluxe+Room) and jump
+    // straight to the booking form.
+    (function preselectRoom() {
+        const params = new URLSearchParams(window.location.search);
+        const roomName = params.get('room');
+        if (!roomName) return;
+        const roomSelect = document.querySelector('select[name="RoomType"]');
+        if (!roomSelect) return;
+        for (let i = 0; i < roomSelect.options.length; i++) {
+            if (roomSelect.options[i].value === roomName) {
+                roomSelect.selectedIndex = i;
+                break;
+            }
+        }
+        document.getElementById('book')?.scrollIntoView({ behavior: 'smooth' });
+    })();
+
     function toggleMenu() {
         document.querySelector('.nav-links').classList.toggle('active');
+        document.querySelector('.menu-toggle').classList.toggle('active');
     }
 
     const backToTop = document.getElementById('backToTop');

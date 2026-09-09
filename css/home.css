@@ -45,15 +45,25 @@ html {
        not exactly 100vh -- mandatory snapping fights the user on shorter
        viewports/mobile and can feel like the page is stuck mid-scroll. */
     scroll-snap-type: y proximity;
+    /* Without this, jumping to a section (nav links, scroll-snap landing)
+       aligns its top edge with the viewport top -- but the navbar is
+       position:fixed and sits on top of that same 80px, covering the
+       section's heading. This reserves that space so scrolling stops with
+       the heading visible below the navbar instead of hidden behind it. */
+    scroll-padding-top: 80px;
 }
 
 section, header, footer, #contactus {
     scroll-snap-align: start;
 }
 
-/* Custom Scrollbar */
+/* Custom Scrollbar -- "width" only styles a vertical scrollbar's thickness;
+   "height" is what controls a horizontal one (e.g. the room photo
+   thumbnail strip), so without it that bar falls back to the browser's
+   default (much thicker) size. */
 ::-webkit-scrollbar {
     width: 8px;
+    height: 8px;
 }
 ::-webkit-scrollbar-track {
     background: var(--darker-bg);
@@ -158,11 +168,63 @@ h1, h2, h3, h4, h5, h6 {
 
 .menu-toggle {
     display: none;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
     color: var(--text-light);
-    font-size: 24px;
     cursor: pointer;
     background: none;
     border: none;
+    padding: 0;
+}
+
+/* Drawn with CSS (not an icon-font glyph) so it can never fail to load --
+   the mobile menu button must always be visible, even if the FontAwesome
+   CDN is slow, blocked, or ad-blocked. */
+.hamburger-icon,
+.hamburger-icon::before,
+.hamburger-icon::after {
+    display: block;
+    width: 22px;
+    height: 2px;
+    background: currentColor;
+    border-radius: 2px;
+    transition: var(--transition-smooth);
+}
+
+.hamburger-icon {
+    position: relative;
+}
+
+.hamburger-icon::before,
+.hamburger-icon::after {
+    content: '';
+    position: absolute;
+    left: 0;
+}
+
+.hamburger-icon::before {
+    top: -7px;
+}
+
+.hamburger-icon::after {
+    top: 7px;
+}
+
+/* Morph into an X while the mobile menu is open. */
+.menu-toggle.active .hamburger-icon {
+    background: transparent;
+}
+
+.menu-toggle.active .hamburger-icon::before {
+    top: 0;
+    transform: rotate(45deg);
+}
+
+.menu-toggle.active .hamburger-icon::after {
+    top: 0;
+    transform: rotate(-45deg);
 }
 
 .nav-links li {
@@ -532,6 +594,49 @@ h1, h2, h3, h4, h5, h6 {
     color: var(--text-light);
 }
 
+.room-image {
+    display: block;
+    cursor: pointer;
+}
+
+.room-title-link {
+    text-decoration: none;
+}
+
+.room-title-link h3 {
+    transition: var(--transition-smooth);
+}
+
+.room-card:hover .room-title-link h3 {
+    color: var(--primary-color);
+}
+
+.room-actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+}
+
+.btn-view-room {
+    display: inline-flex;
+    align-items: center;
+    padding: 10px 20px;
+    font-size: 14px;
+    font-weight: 500;
+    text-transform: uppercase;
+    color: var(--primary-color);
+    border: 1px solid var(--primary-color);
+    text-decoration: none;
+    cursor: pointer;
+    transition: var(--transition-smooth);
+}
+
+.btn-view-room:hover {
+    background: var(--primary-color);
+    color: #fff;
+}
+
 /* --- Facilities Section --- */
 #thirdsection {
     background-color: var(--darker-bg);
@@ -738,6 +843,177 @@ h1, h2, h3, h4, h5, h6 {
     color: var(--text-muted);
 }
 
+/* --- Why Choose Us Section --- */
+#whychooseus {
+    background-color: var(--light-bg);
+}
+
+.feature-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 25px;
+}
+
+.feature-card {
+    background: #fff;
+    border: 1px solid #eee;
+    border-radius: 10px;
+    padding: 35px 25px;
+    text-align: center;
+    transition: var(--transition-smooth);
+}
+
+.feature-card:hover {
+    transform: translateY(-6px);
+    box-shadow: var(--shadow-soft);
+}
+
+.feature-card i {
+    font-size: 2rem;
+    color: var(--primary-color);
+    margin-bottom: 18px;
+}
+
+.feature-card h3 {
+    font-size: 1.1rem;
+    margin-bottom: 10px;
+    color: var(--dark-bg);
+}
+
+.feature-card p {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    line-height: 1.6;
+}
+
+/* --- FAQ Section --- */
+#faqsection {
+    background-color: #fff;
+}
+
+.faq-list {
+    max-width: 800px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.faq-item {
+    border: 1px solid #eee;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.faq-question {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+    background: var(--light-bg);
+    border: none;
+    text-align: left;
+    padding: 18px 22px;
+    font-family: var(--font-body);
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--dark-bg);
+    cursor: pointer;
+    transition: var(--transition-smooth);
+}
+
+.faq-question:hover {
+    color: var(--primary-color);
+}
+
+.faq-question i {
+    flex-shrink: 0;
+    transition: transform 0.3s ease;
+    color: var(--primary-color);
+}
+
+.faq-item.open .faq-question i {
+    transform: rotate(180deg);
+}
+
+.faq-answer {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.35s ease;
+}
+
+.faq-item.open .faq-answer {
+    max-height: 300px;
+}
+
+.faq-answer p {
+    padding: 18px 22px;
+    color: var(--text-muted);
+    line-height: 1.7;
+    font-size: 0.95rem;
+}
+
+/* --- Location Section --- */
+#locationsection {
+    background-color: var(--light-bg);
+}
+
+.location-grid {
+    display: grid;
+    grid-template-columns: 1.3fr 1fr;
+    gap: 30px;
+    align-items: stretch;
+}
+
+.location-map {
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: var(--shadow-soft);
+    min-height: 320px;
+}
+
+.location-map iframe {
+    width: 100%;
+    height: 100%;
+    min-height: 320px;
+    border: 0;
+}
+
+.location-info {
+    background: #fff;
+    border-radius: 10px;
+    padding: 30px;
+    box-shadow: var(--shadow-soft);
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.location-info .info-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 15px;
+}
+
+.location-info .info-item i {
+    color: var(--primary-color);
+    font-size: 22px;
+    margin-top: 4px;
+}
+
+.location-info .info-item strong {
+    display: block;
+    color: var(--dark-bg);
+    margin-bottom: 4px;
+}
+
+.location-info .info-item p {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    margin: 0;
+}
+
 /* --- Floating Action Buttons --- */
 .float-actions {
     position: fixed;
@@ -936,6 +1212,13 @@ footer {
     .about-img.img-accent {
         height: 160px;
     }
+    .location-grid {
+        grid-template-columns: 1fr;
+    }
+    .location-map,
+    .location-map iframe {
+        min-height: 260px;
+    }
 }
 
 /* Small phones */
@@ -952,6 +1235,12 @@ footer {
     }
     .welcometag {
         font-size: 2.2rem;
+    }
+    /* Let the title wrap naturally instead of forcing "Unrivaled Luxury"
+       onto one line -- on very narrow phones that line can be wider than
+       the screen and get clipped (body hides horizontal overflow). */
+    .hero-break {
+        display: none;
     }
     .subtitle {
         font-size: 1rem;

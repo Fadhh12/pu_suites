@@ -49,7 +49,7 @@ include 'config.php';
     <div class="nav-cta">
       <button class="btn-nav-book" onclick="openbookbox()">Book Now</button>
       <button class="menu-toggle" onclick="toggleMenu()" aria-label="Toggle menu">
-        <i class="fa-solid fa-bars"></i>
+        <span class="hamburger-icon"></span>
       </button>
     </div>
   </nav>
@@ -72,7 +72,7 @@ include 'config.php';
 
         <div class="hero-overlay"></div>
         <div class="welcomeline" data-aos="fade-up" data-aos-duration="1500">
-          <h1 class="welcometag">Experience<br>Unrivaled Luxury</h1>
+          <h1 class="welcometag">Experience <br class="hero-break">Unrivaled Luxury</h1>
           <p class="subtitle">Stay. Relax. Repeat.</p>
           <button class="btn-explore" onclick="document.getElementById('secondsection').scrollIntoView({behavior: 'smooth'})">Explore Rooms</button>
         </div>
@@ -240,9 +240,9 @@ include 'config.php';
       <div class="room-grid">
         <!-- Room 1 -->
         <div class="room-card" data-aos="fade-up" data-aos-delay="100">
-          <div class="room-image h1"></div>
+          <a href="room-detail.php?type=superior" class="room-image h1" aria-label="View Superior Room details and photos"></a>
           <div class="room-content">
-            <h3>Superior Room</h3>
+            <a href="room-detail.php?type=superior" class="room-title-link"><h3>Superior Room</h3></a>
             <div class="room-amenities">
               <i class="fa-solid fa-wifi" title="Free Wifi"></i>
               <i class="fa-solid fa-burger" title="Room Service"></i>
@@ -250,49 +250,61 @@ include 'config.php';
               <i class="fa-solid fa-dumbbell" title="Gym"></i>
               <i class="fa-solid fa-person-swimming" title="Pool"></i>
             </div>
-            <button class="btn-book-now" onclick="openbookbox('Superior Room')">Book Now</button>
+            <div class="room-actions">
+              <a href="room-detail.php?type=superior" class="btn-view-room">View Details</a>
+              <button class="btn-book-now" onclick="openbookbox('Superior Room')">Book Now</button>
+            </div>
           </div>
         </div>
-        
+
         <!-- Room 2 -->
         <div class="room-card" data-aos="fade-up" data-aos-delay="200">
-          <div class="room-image h2"></div>
+          <a href="room-detail.php?type=deluxe" class="room-image h2" aria-label="View Deluxe Room details and photos"></a>
           <div class="room-content">
-            <h3>Deluxe Room</h3>
+            <a href="room-detail.php?type=deluxe" class="room-title-link"><h3>Deluxe Room</h3></a>
             <div class="room-amenities">
               <i class="fa-solid fa-wifi" title="Free Wifi"></i>
               <i class="fa-solid fa-burger" title="Room Service"></i>
               <i class="fa-solid fa-spa" title="Spa Access"></i>
               <i class="fa-solid fa-dumbbell" title="Gym"></i>
             </div>
-            <button class="btn-book-now" onclick="openbookbox('Deluxe Room')">Book Now</button>
+            <div class="room-actions">
+              <a href="room-detail.php?type=deluxe" class="btn-view-room">View Details</a>
+              <button class="btn-book-now" onclick="openbookbox('Deluxe Room')">Book Now</button>
+            </div>
           </div>
         </div>
-        
+
         <!-- Room 3 -->
         <div class="room-card" data-aos="fade-up" data-aos-delay="300">
-          <div class="room-image h3"></div>
+          <a href="room-detail.php?type=guesthouse" class="room-image h3" aria-label="View Guest House details and photos"></a>
           <div class="room-content">
-            <h3>Guest House</h3>
+            <a href="room-detail.php?type=guesthouse" class="room-title-link"><h3>Guest House</h3></a>
             <div class="room-amenities">
               <i class="fa-solid fa-wifi" title="Free Wifi"></i>
               <i class="fa-solid fa-burger" title="Room Service"></i>
               <i class="fa-solid fa-spa" title="Spa Access"></i>
             </div>
-            <button class="btn-book-now" onclick="openbookbox('Guest House')">Book Now</button>
+            <div class="room-actions">
+              <a href="room-detail.php?type=guesthouse" class="btn-view-room">View Details</a>
+              <button class="btn-book-now" onclick="openbookbox('Guest House')">Book Now</button>
+            </div>
           </div>
         </div>
-        
+
         <!-- Room 4 -->
         <div class="room-card" data-aos="fade-up" data-aos-delay="400">
-          <div class="room-image h4"></div>
+          <a href="room-detail.php?type=single" class="room-image h4" aria-label="View Single Room details and photos"></a>
           <div class="room-content">
-            <h3>Single Room</h3>
+            <a href="room-detail.php?type=single" class="room-title-link"><h3>Single Room</h3></a>
             <div class="room-amenities">
               <i class="fa-solid fa-wifi" title="Free Wifi"></i>
               <i class="fa-solid fa-burger" title="Room Service"></i>
             </div>
-            <button class="btn-book-now" onclick="openbookbox('Single Room')">Book Now</button>
+            <div class="room-actions">
+              <a href="room-detail.php?type=single" class="btn-view-room">View Details</a>
+              <button class="btn-book-now" onclick="openbookbox('Single Room')">Book Now</button>
+            </div>
           </div>
         </div>
       </div>
@@ -328,6 +340,48 @@ include 'config.php';
                 </div>
             </div>
         </div>
+    </div>
+  </section>
+
+  <!-- Why Choose Us Section -->
+  <section id="whychooseus">
+    <div class="section-container">
+      <div class="section-header" data-aos="fade-up">
+        <h2 class="head-title">Why Stay With Us</h2>
+        <p class="head-subtitle">The little things that make a big difference</p>
+      </div>
+      <div class="feature-grid">
+        <div class="feature-card" data-aos="fade-up" data-aos-delay="100">
+          <i class="fa-solid fa-location-dot"></i>
+          <h3>Prime Location</h3>
+          <p>Steps away from President University, Cikarang's business and education hub.</p>
+        </div>
+        <div class="feature-card" data-aos="fade-up" data-aos-delay="150">
+          <i class="fa-solid fa-headset"></i>
+          <h3>24/7 Front Desk</h3>
+          <p>Our team is on hand around the clock for anything you need, day or night.</p>
+        </div>
+        <div class="feature-card" data-aos="fade-up" data-aos-delay="200">
+          <i class="fa-solid fa-van-shuttle"></i>
+          <h3>Shuttle on Request</h3>
+          <p>Arrange campus or airport transfers in advance through our front desk.</p>
+        </div>
+        <div class="feature-card" data-aos="fade-up" data-aos-delay="250">
+          <i class="fa-solid fa-calendar-check"></i>
+          <h3>Flexible Booking</h3>
+          <p>Plans change — reach out and we'll do our best to accommodate you.</p>
+        </div>
+        <div class="feature-card" data-aos="fade-up" data-aos-delay="300">
+          <i class="fa-solid fa-wifi"></i>
+          <h3>Free High-Speed Wifi</h3>
+          <p>Stay connected throughout your stay, in every room and common area.</p>
+        </div>
+        <div class="feature-card" data-aos="fade-up" data-aos-delay="350">
+          <i class="fa-solid fa-shield-heart"></i>
+          <h3>Safe & Spotless</h3>
+          <p>Rigorous housekeeping standards so every room feels brand new.</p>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -377,6 +431,107 @@ include 'config.php';
               <span>Melbourne, Australia</span>
             </div>
           </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ Section -->
+  <section id="faqsection">
+    <div class="section-container">
+      <div class="section-header" data-aos="fade-up">
+        <h2 class="head-title">Frequently Asked Questions</h2>
+        <p class="head-subtitle">Everything you might want to know before you book</p>
+      </div>
+      <div class="faq-list" data-aos="fade-up" data-aos-delay="100">
+        <div class="faq-item">
+          <button class="faq-question" onclick="toggleFaq(this)">
+            What time is check-in and check-out?
+            <i class="fa-solid fa-chevron-down"></i>
+          </button>
+          <div class="faq-answer">
+            <p>Check-in starts at 2:00 PM and check-out is by 12:00 PM (noon). Early check-in and late check-out can be arranged on request, subject to availability.</p>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question" onclick="toggleFaq(this)">
+            What is your cancellation policy?
+            <i class="fa-solid fa-chevron-down"></i>
+          </button>
+          <div class="faq-answer">
+            <p>Free cancellation up to 24 hours before your check-in date. Cancellations after that may be subject to a one-night charge.</p>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question" onclick="toggleFaq(this)">
+            Is breakfast included in the room rate?
+            <i class="fa-solid fa-chevron-down"></i>
+          </button>
+          <div class="faq-answer">
+            <p>It depends on the meal plan you pick when booking — Room Only, Breakfast, Half Board, or Full Board — so you only pay for what you'll actually use.</p>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question" onclick="toggleFaq(this)">
+            Do you offer airport or campus transfer?
+            <i class="fa-solid fa-chevron-down"></i>
+          </button>
+          <div class="faq-answer">
+            <p>Yes, our front desk can arrange a shuttle for you — just let us know your schedule a day in advance via the contact form or on arrival.</p>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question" onclick="toggleFaq(this)">
+            What payment methods do you accept?
+            <i class="fa-solid fa-chevron-down"></i>
+          </button>
+          <div class="faq-answer">
+            <p>Cash, bank transfer, and major debit/credit cards are accepted at check-in or check-out. Your reservation is confirmed by our staff before payment is due.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Location Section -->
+  <section id="locationsection">
+    <div class="section-container">
+      <div class="section-header" data-aos="fade-up">
+        <h2 class="head-title">Find Us</h2>
+        <p class="head-subtitle">Right in the heart of Cikarang</p>
+      </div>
+      <div class="location-grid" data-aos="fade-up" data-aos-delay="100">
+        <div class="location-map">
+          <iframe
+            src="https://www.google.com/maps?q=President%20University%2C%20Cikarang&output=embed"
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade"
+            title="PU SUITES location map">
+          </iframe>
+        </div>
+        <div class="location-info">
+          <div class="info-item">
+            <i class="fa-solid fa-location-dot"></i>
+            <div>
+              <strong>Address</strong>
+              <p>President University, Cikarang<br>West Java, Indonesia</p>
+            </div>
+          </div>
+          <div class="info-item">
+            <i class="fa-solid fa-phone"></i>
+            <div>
+              <strong>Phone</strong>
+              <p>+62 812 3456 7890</p>
+            </div>
+          </div>
+          <div class="info-item">
+            <i class="fa-solid fa-envelope"></i>
+            <div>
+              <strong>Email</strong>
+              <p>reservations@pusuites.com</p>
+            </div>
+          </div>
+          <a href="contact.php" class="btn-explore" style="align-self: flex-start; color: var(--dark-bg); border-color: var(--dark-bg); text-decoration: none;">Get Directions & Book</a>
         </div>
       </div>
     </div>
@@ -435,7 +590,7 @@ include 'config.php';
         setTimeout(() => {
             bookbox.style.opacity = "1";
         }, 50);
-        
+
         if(roomName && roomSelect) {
             for(let i = 0; i < roomSelect.options.length; i++) {
                 if(roomSelect.options[i].value === roomName) {
@@ -445,7 +600,23 @@ include 'config.php';
             }
         }
     }
-    AOS.init({ once: true, offset: 50 });
+
+    // Was missing entirely -- the close (X) button called this but it was
+    // never defined, so clicking it silently did nothing.
+    function closebox() {
+        bookbox.style.opacity = "0";
+        setTimeout(() => {
+            bookbox.style.display = "none";
+        }, 300);
+    }
+
+    // Also close on backdrop click or Escape, which users expect from any modal.
+    bookbox.addEventListener('click', function(e) {
+        if (e.target === bookbox) closebox();
+    });
+    document.addEventListener('keydown', function(e) {
+        if (e.key === "Escape" && bookbox.style.display === "flex") closebox();
+    });
 
     // Navbar Scroll Effect
     window.addEventListener('scroll', function() {
@@ -460,6 +631,15 @@ include 'config.php';
     // Mobile Menu Toggle
     function toggleMenu() {
         document.querySelector('.nav-links').classList.toggle('active');
+        document.querySelector('.menu-toggle').classList.toggle('active');
+    }
+
+    // FAQ Accordion
+    function toggleFaq(btn) {
+        const item = btn.closest('.faq-item');
+        const wasOpen = item.classList.contains('open');
+        document.querySelectorAll('.faq-item.open').forEach(el => el.classList.remove('open'));
+        if (!wasOpen) item.classList.add('open');
     }
 
     // Back to Top Button
