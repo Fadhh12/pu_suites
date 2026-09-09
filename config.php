@@ -14,8 +14,13 @@ $username = getenv('DB_USER') ?: 'root';
 $password = getenv('DB_PASS') ?: '';
 $database = getenv('DB_NAME') ?: 'PU_SUITES';
 
+// PHP 8.1+ makes mysqli throw an exception on connection failure by default
+// instead of just returning false, which turns a wrong password/host into a
+// blank HTTP 500 instead of the friendly message below. Turn that reporting
+// off so a bad connection behaves the same on every PHP version.
+mysqli_report(MYSQLI_REPORT_OFF);
 $conn = mysqli_connect($server, $username, $password, $database);
 
 if (!$conn) {
-    die('Database connection failed. Please try again shortly.');
+    die('Database connection failed: ' . mysqli_connect_error());
 }
