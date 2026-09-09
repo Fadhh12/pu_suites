@@ -1,11 +1,10 @@
+<?php require 'auth.php'; ?>
 <html>
 
 <head>
 	<meta charset="utf-8">
-	<title>Invoice</title>
-	<link rel="stylesheet" href="style.css">
+	<title>Invoice - PU SUITES</title>
 	<link rel="license" href="https://www.opensource.org/licenses/mit-license/">
-	<script src="script.js"></script>
 	<style>
 		/* reset */
 
@@ -381,12 +380,14 @@
 
 	<?php
 	ob_start();
-	include '../config.php';
 
-	$id = $_GET['id'];
+	$id = (int) $_GET['id'];
 
-	$sql = "select * from payment where id = '$id' ";
-	$re = mysqli_query($conn, $sql);
+	$sql = "select * from payment where id = ?";
+	$stmt = mysqli_prepare($conn, $sql);
+	mysqli_stmt_bind_param($stmt, "i", $id);
+	mysqli_stmt_execute($stmt);
+	$re = mysqli_stmt_get_result($stmt);
 	while ($row = mysqli_fetch_array($re)) {
 		$id = $row['id'];
 		$Name = $row['Name'];
@@ -440,8 +441,8 @@
 	<header>
 		<h1>Invoice</h1>
 		<address>
-			<p>PRESIDENT SUITES,</p>
-			<p>(+62) 82340255</p>
+			<p>PU SUITES,</p>
+			<p>+62 812 3456 7890</p>
 		</address>
 		<span><img alt="" src="../image/President_University_Logo.png"></span>
 	</header>
@@ -514,7 +515,7 @@
 	<aside>
 		<h1><span>Contact us</span></h1>
 		<div>
-			<p align="center">Email :- presidentsuites@gmail.com || Web :- www.President Suites.com || Phone :- +62 82340255</p>
+			<p align="center">Email :- reservations@pusuites.com || Web :- www.pusuites.com || Phone :- +62 812 3456 7890</p>
 		</div>
 	</aside>
 

@@ -93,6 +93,7 @@ body {
 
 /* Specific Card Colors */
 .roombookbox::before { background-color: var(--primary-color); }
+.pendingbox::before { background-color: #f97316; }
 .guestbox::before { background-color: var(--success-color); }
 .profitbox::before { background-color: var(--warning-color); }
 

@@ -1,98 +1,219 @@
-@import url('https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Anton&family=Cookie&family=Poppins:wght@600&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
 
 :root {
-    --bg-text-shadow: 0 2px 4px rgb(13 0 77 / 8%), 0 3px 6px rgb(13 0 77 / 8%), 0 8px 16px rgb(13 0 77 / 8%);
-    --bg-box-shadow: 0px 0px 20px 6px rgba(8, 8, 15, 0.31);
-}
-*::-webkit-scrollbar{
-    width: .4rem;
-}
-*::-webkit-scrollbar-track{
-    background: rgb(6, 6, 44);
-}
-*::-webkit-scrollbar-thumb{
-    background: #0040ff;
-}
-
-body {
-    /* background-color: #ffff; */
-    /* background-image: url(../../image/bg.jpg);
-    background-size: cover; */
+    --primary-color: #0ea5e9;
+    --primary-hover: #0284c7;
+    --success-color: #10b981;
+    --danger-color: #ef4444;
+    --bg-color: #f1f5f9;
+    --card-bg: #ffffff;
+    --text-color: #334155;
+    --text-muted: #64748b;
+    --border-color: #e2e8f0;
+    --shadow-sm: 0 1px 3px rgba(0,0,0,0.1);
+    --radius: 8px;
 }
 
 * {
     margin: 0;
     padding: 0;
+    box-sizing: border-box;
     font-family: 'Poppins', sans-serif;
-    /* text-shadow: var(--bg-text-shadow); */
 }
 
-.addroomsection{
-    height: 60px;
+body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+}
+
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+
+/* Add Room bar */
+.addroomsection {
+    height: 70px;
     width: 100%;
-    background-color:  #0a0d2d;
-    position:fixed;
-    /* display: flex; */
+    background-color: var(--card-bg);
+    box-shadow: var(--shadow-sm);
+    position: fixed;
+    top: 0;
+    left: 0;
     z-index: 100;
-    
 }
 
-.addroomsection form{
+.addroomsection form {
     height: 100%;
     display: flex;
-    justify-content: space-evenly;
     align-items: center;
+    gap: 15px;
+    padding: 0 30px;
 }
 
-.addroomsection form label{
+.addroomsection form label {
+    color: var(--text-muted);
+    font-size: 13px;
+    font-weight: 500;
+    white-space: nowrap;
+}
+
+.addroomsection form select {
+    height: 40px;
+    max-width: 220px;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius);
+    padding: 0 12px;
+    font-size: 14px;
+    outline: none;
+    transition: border-color 0.2s;
+}
+
+.addroomsection form select:focus {
+    border-color: var(--primary-color);
+}
+
+.addroomsection form button {
+    height: 40px;
+    padding: 0 20px;
+    background-color: var(--primary-color);
     color: white;
+    border: none;
+    border-radius: var(--radius);
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
 }
 
-.addroomsection form select{
-    width: 300px;
+.addroomsection form button:hover {
+    background-color: var(--primary-hover);
 }
 
-.addroomsection form input{
-    width: 300px;
-}
-
-
-
-.room{
+/* Summary strip */
+.roomsummary {
+    position: fixed;
+    top: 70px;
+    left: 0;
+    width: 100%;
+    background-color: var(--card-bg);
+    border-bottom: 1px solid var(--border-color);
     display: flex;
-    position: relative;
-    top: 60px;
-    height: 85vh;
-    overflow-y: scroll;
-    justify-content: space-evenly;
+    gap: 25px;
+    padding: 14px 30px;
+    z-index: 90;
     flex-wrap: wrap;
 }
-.roombox{
-    height: 230px;
-    width: 230px;
-    margin: 20px;
+
+.roomsummary .stat {
+    display: flex;
+    align-items: baseline;
+    gap: 6px;
+    font-size: 13px;
+    color: var(--text-muted);
+}
+
+.roomsummary .stat strong {
+    font-size: 16px;
+    color: var(--text-color);
+}
+
+/* Room inventory grid */
+.room {
+    position: relative;
+    top: 128px;
+    padding: 10px 30px 30px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 20px;
+}
+
+.room .empty-state {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 60px 20px;
+    color: var(--text-muted);
+}
+
+.room .empty-state i {
+    font-size: 40px;
+    color: var(--border-color);
+    margin-bottom: 15px;
+    display: block;
+}
+
+.roombox {
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    box-shadow: var(--shadow-sm);
+    padding: 22px 18px;
     display: flex;
     flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 10px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.roombox:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 16px rgba(0,0,0,0.08);
+}
+
+.roombox .room-icon {
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
     justify-content: center;
-    color: #0a0d2d;
-    text-shadow: var(--bg-text-shadow);
-    border-radius: 10px;
+    font-size: 22px;
+    color: white;
+    margin-bottom: 4px;
 }
 
-.roomboxsuperior{
-    background-color:#2407fc8e;
+.roomboxsuperior .room-icon { background: #6366f1; }
+.roomboxdelux .room-icon { background: #ec4899; }
+.roomboguest .room-icon { background: #10b981; }
+.roomboxsingle .room-icon { background: #0ea5e9; }
+
+.roombox h3 {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--text-color);
 }
 
-.roomboxdelux{
-    background-color:#fa8393c8;
+.roombox .room-id {
+    font-size: 12px;
+    color: var(--text-muted);
 }
 
-.roomboguest{
-    background-color:#19cf1069;
+.roombox .bedding-badge {
+    display: inline-block;
+    padding: 4px 12px;
+    background-color: var(--bg-color);
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--text-muted);
 }
 
-.roomboxsingle{
-    background-color:#07fcdb8e;
+.roombox .btn-danger {
+    margin-top: 6px;
+    border: none;
+    background-color: transparent;
+    color: var(--danger-color);
+    font-size: 12px;
+    font-weight: 500;
+    cursor: pointer;
+    padding: 6px 14px;
+    border-radius: var(--radius);
+    transition: background-color 0.2s;
 }
 
+.roombox .btn-danger:hover {
+    background-color: #fef2f2;
+}

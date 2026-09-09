@@ -4,11 +4,11 @@ require 'auth.php';
 
 $id = (int) $_GET['id'];
 
-$roomdeletesql = "DELETE FROM room WHERE id = ?";
-$stmt = mysqli_prepare($conn, $roomdeletesql);
+$deletesql = "DELETE FROM staff WHERE id = ?";
+$stmt = mysqli_prepare($conn, $deletesql);
 mysqli_stmt_bind_param($stmt, "i", $id);
 mysqli_stmt_execute($stmt);
 
-header("Location: room.php");
+header("Location: staff.php");
 
 ?>

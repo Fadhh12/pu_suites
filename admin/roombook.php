@@ -1,7 +1,5 @@
 <?php
-session_start();
-include '../config.php';
-
+require 'auth.php';
 ?>
 
 <!DOCTYPE html>
@@ -19,10 +17,10 @@ include '../config.php';
     <!-- sweet alert -->
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <link rel="stylesheet" href="./css/roombook.css">
-    <title>BlueBird - Admin</title>
+    <title>PU SUITES - Admin</title>
 </head>
 
-<body>
+<body class="has-summary">
     <!-- guestdetailpanel -->
 
     <div id="guestdetailpanel">
@@ -73,26 +71,9 @@ include '../config.php';
 						<option value="None">None</option>
                     </select>
                     <select name="NoofRoom" class="selectinput">
-                        <option value="" selected>No of Room</option>
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="4">4</option>
-                        <option value="5">5</option>
-                        <option value="6">6</option>
-                        <option value="7">7</option>
-                        <option value="8">8</option>
-                        <option value="9">9</option>
-                        
+                        <option value="" selected disabled>No of Room</option>
+                        <?php for ($i = 1; $i <= 10; $i++) echo "<option value='$i'>$i</option>"; ?>
                     </select>
-                    <select name="NoofRoom" class="selectinput">
-    <option value="" selected>No of Room</option>
-    <?php
-    for ($i = 1; $i <= 10; $i++) {
-        echo "<option value='$i'>$i</option>";
-    }
-    ?>
-</select>
 
                     <select name="Meal" class="selectinput">
 						<option value selected >Meal</option>
@@ -118,102 +99,33 @@ include '../config.php';
             </div>
         </form>
 
-        <?php       
-        // <!-- room availablity start-->
+        <?php
+        // Room availability = rooms of that type in `room` minus rooms of
+        // that type already confirmed in `payment`. Surfaced as a summary
+        // strip below instead of sitting here unused.
+        $roomTypes = ['Superior Room', 'Deluxe Room', 'Guest House', 'Single Room'];
+        $roomTotals = array_fill_keys($roomTypes, 0);
+        $bookedTotals = array_fill_keys($roomTypes, 0);
 
-        $rsql ="select * from room";
-        $rre= mysqli_query($conn,$rsql);
-        $r = 0;
-        $sc = 0;
-        $gh = 0;
-        $sr = 0;
-        $dr = 0;
-
-        while($rrow=mysqli_fetch_array($rre))
-        {
-            $r = $r + 1;
-            $s = $rrow['type'];
-            if($s=="Superior Room")
-            {
-                $sc = $sc+ 1;
-            }
-            if($s=="Guest House")
-            {
-                $gh = $gh + 1;
-            }
-            if($s=="Single Room" )
-            {
-                $sr = $sr + 1;
-            }
-            if($s=="Deluxe Room" )
-            {
-                $dr = $dr + 1;
+        $rre = mysqli_query($conn, "SELECT type FROM room");
+        while ($rrow = mysqli_fetch_assoc($rre)) {
+            if (isset($roomTotals[$rrow['type']])) {
+                $roomTotals[$rrow['type']]++;
             }
         }
 
-        $csql ="select * from payment";
-        $cre= mysqli_query($conn,$csql);
-        $cr =0 ;
-        $csc =0;
-        $cgh = 0;
-        $csr = 0;
-        $cdr = 0;
-        while($crow=mysqli_fetch_array($cre))
-        {
-            $cr = $cr + 1;
-            $cs = $crow['RoomType'];
-                        
-            if($cs=="Superior Room")
-            {
-                $csc = $csc + 1;
-            }
-                        
-            if($cs=="Guest House" )
-            {
-                $cgh = $cgh + 1;
-            }
-            if($cs=="Single Room")
-            {
-                $csr = $csr + 1;
-            }
-            if($cs=="Deluxe Room")
-            {
-                $cdr = $cdr + 1;
+        $cre = mysqli_query($conn, "SELECT RoomType FROM payment");
+        while ($crow = mysqli_fetch_assoc($cre)) {
+            if (isset($bookedTotals[$crow['RoomType']])) {
+                $bookedTotals[$crow['RoomType']]++;
             }
         }
-        // room availablity
-        // Superior Room =>
-        $f1 =$sc - $csc;
-        if($f1 <=0 )
-        {	
-            $f1 = "NO";
-        }
-        // Guest House =>
-        $f2 =  $gh -$cgh;
-        if($f2 <=0 )
-        {	
-            $f2 = "NO";
-        }
-        // Single Room =>
-        $f3 =$sr - $csr;
-        if($f3 <=0 )
-        {	
-            $f3 = "NO";
-        }
-        // Deluxe Room =>
-        $f4 =$dr - $cdr; 
-        if($f4 <=0 )
-        {	
-            $f4 = "NO";
-        }
-        //total available room =>
-        $f5 =$r-$cr; 
-        if($f5 <=0 )
-        {
-            $f5 = "NO";
+
+        $availability = [];
+        foreach ($roomTypes as $type) {
+            $availability[$type] = max(0, $roomTotals[$type] - $bookedTotals[$type]);
         }
         ?>
-        <!-- room availablity end-->
 
         <!-- ==== room book php ====-->
         <?php       
@@ -238,73 +150,53 @@ include '../config.php';
                 }
                 else{
                     $sta = "NotConfirm";
-                    $sql = "INSERT INTO roombook(Name,Email,Country,Phone,RoomType,Bed,NoofRoom,Meal,cin,cout,stat,nodays) VALUES ('$Name','$Email','$Country','$Phone','$RoomType','$Bed','$NoofRoom','$Meal','$cin','$cout','$sta',datediff('$cout','$cin'))";
-                    $result = mysqli_query($conn, $sql);
+                    $sql = "INSERT INTO roombook(Name,Email,Country,Phone,RoomType,Bed,NoofRoom,Meal,cin,cout,stat,nodays) VALUES (?,?,?,?,?,?,?,?,?,?,?,datediff(?,?))";
+                    $stmt = mysqli_prepare($conn, $sql);
+                    mysqli_stmt_bind_param($stmt, "sssssssssssss", $Name, $Email, $Country, $Phone, $RoomType, $Bed, $NoofRoom, $Meal, $cin, $cout, $sta, $cout, $cin);
+                    $result = mysqli_stmt_execute($stmt);
 
-                    // if($f1=="NO")
-                    // {
-                    //     echo "<script>swal({
-                    //         title: 'Superior Room is not available',
-                    //         icon: 'error',
-                    //     });
-                    //     </script>";
-                    // }
-                    // else if($f2=="NO")
-                    // {
-                    //     echo "<script>swal({
-                    //         title: 'Guest House is not available',
-                    //         icon: 'error',
-                    //     });
-                    //     </script>";
-                    // }
-                    // else if($f3 == "NO")
-                    // {
-                    //     echo "<script>swal({
-                    //         title: 'Si Room is not available',
-                    //         icon: 'error',
-                    //     });
-                    //     </script>";
-                    // }
-                    // else if($f4 == "NO")
-                    // {
-                    //     echo "<script>swal({
-                    //         title: 'Deluxe Room is not available',
-                    //         icon: 'error',
-                    //     });
-                    //     </script>";
-                    // }
-                    // else if($result = mysqli_query($conn, $sql))
-                    // {
-                        if ($result) {
-                            echo "<script>swal({
-                                title: 'Reservation successful',
-                                icon: 'success',
-                            });
+                    if ($result) {
+                        echo "<script>swal({
+                            title: 'Reservation successful',
+                            icon: 'success',
+                        });
                         </script>";
-                        } else {
-                            echo "<script>swal({
-                                    title: 'Something went wrong',
-                                    icon: 'error',
-                                });
+                    } else {
+                        echo "<script>swal({
+                            title: 'Something went wrong',
+                            icon: 'error',
+                        });
                         </script>";
-                        }
-                    // }
+                    }
                 }
             }
         ?>
     </div>
 
     
+    <div class="roomsummary">
+        <?php foreach ($availability as $type => $available): ?>
+            <div class="stat">
+                <strong<?php echo $available === 0 ? ' style="color: var(--danger-color);"' : ''; ?>>
+                    <?php echo $available === 0 ? 'Sold out' : $available; ?>
+                </strong>
+                <?php echo htmlspecialchars($type); ?><?php echo $available === 0 ? '' : ' available'; ?>
+            </div>
+        <?php endforeach; ?>
+    </div>
+
     <!-- ================================================= -->
     <div class="searchsection">
         <input type="text" name="search_bar" id="search_bar" placeholder="search..." onkeyup="searchFun()">
-        <button class="adduser" id="adduser" onclick="adduseropen()"><i class="fa-solid fa-bookmark"></i> Add</button>
-        <form action="./exportdata.php" method="post">
-            <button class="exportexcel" id="exportexcel" name="exportexcel" type="submit"><i class="fa-solid fa-file-arrow-down"></i></button>
-        </form>
+        <div class="action-buttons">
+            <button class="adduser" id="adduser" onclick="adduseropen()"><i class="fa-solid fa-bookmark"></i> Add Reservation</button>
+            <form action="./exportdata.php" method="post">
+                <button class="exportexcel" id="exportexcel" name="exportexcel" type="submit" title="Export to Excel"><i class="fa-solid fa-file-arrow-down"></i></button>
+            </form>
+        </div>
     </div>
 
-    <div class="roombooktable" class="table-responsive-xl">
+    <div class="roombooktable">
         <?php
             $roombooktablesql = "SELECT * FROM roombook";
             $roombookresult = mysqli_query($conn, $roombooktablesql);

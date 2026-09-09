@@ -67,10 +67,46 @@ body {
     color: var(--sidebar-bg);
     letter-spacing: 1px;
     margin: 0;
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
 }
 
-.logout button {
-    padding: 8px 20px;
+.logo p span {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--text-muted);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    background: var(--bg-color);
+    padding: 3px 8px;
+    border-radius: 4px;
+}
+
+.navright {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.whoami {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--text-muted);
+    font-size: 14px;
+}
+
+.whoami i {
+    font-size: 22px;
+    color: var(--primary-color);
+}
+
+.logoutbtn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 18px;
     background-color: #ef4444;
     border: none;
     border-radius: 6px;
@@ -79,9 +115,10 @@ body {
     cursor: pointer;
     transition: var(--transition);
     font-size: 14px;
+    text-decoration: none;
 }
 
-.logout button:hover {
+.logoutbtn:hover {
     background-color: #dc2626;
     box-shadow: 0 2px 4px rgba(239, 68, 68, 0.4);
 }
@@ -107,6 +144,7 @@ body {
 .sidenav ul li {
     display: flex;
     align-items: center;
+    gap: 15px;
     padding: 15px 25px;
     margin: 5px 15px;
     border-radius: 8px;
@@ -119,7 +157,8 @@ body {
 
 .sidenav ul li img {
     height: 20px;
-    margin-right: 15px;
+    width: 20px;
+    object-fit: contain;
     filter: invert(0.6); /* Make icons grayish */
     transition: var(--transition);
 }
@@ -158,21 +197,38 @@ body {
 #mobileview {
     height: 100vh;
     width: 100%;
-    background-color: var(--bg-color);
-    position: absolute;
+    background-color: var(--sidebar-bg);
+    position: fixed;
+    top: 0;
+    left: 0;
     z-index: 9999;
     display: none;
     justify-content: center;
     align-items: center;
     flex-direction: column;
     text-align: center;
-    padding: 20px;
+    padding: 40px;
+    color: var(--sidebar-text);
+}
+
+#mobileview i {
+    font-size: 48px;
+    color: var(--primary-color);
+    margin-bottom: 20px;
 }
 
 #mobileview h5 {
-    font-size: 18px;
-    color: var(--text-color);
+    font-size: 20px;
+    color: var(--sidebar-text);
     margin-bottom: 10px;
+    font-weight: 600;
+}
+
+#mobileview p {
+    font-size: 14px;
+    color: #94a3b8;
+    max-width: 320px;
+    line-height: 1.6;
 }
 
 @media (max-width: 900px) {

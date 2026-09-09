@@ -1,6 +1,6 @@
 <?php
 
-include '../config.php';
+require 'auth.php';
 
 $sqlq = "SELECT * FROM roombook";
 $result = mysqli_query($conn,$sqlq);
@@ -12,7 +12,7 @@ while( $rows = mysqli_fetch_assoc($result)){
 
 if(isset($_POST["exportexcel"]))
 {
-    $filename = "bluebird_roombook_data_".date('Ymd') .".xls";
+    $filename = "pu_suites_roombook_data_".date('Ymd') .".xls";
     header("Content-Type: application/vnd.ms-excel");
     header("Content-Disposition: attachment; filename=\"$filename\"");
     $show_coloumn = false;
