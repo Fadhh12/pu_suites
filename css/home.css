@@ -592,6 +592,201 @@ h1, h2, h3, h4, h5, h6 {
 .f-food { background-image: url('../image/food.jpg'); }
 .f-gym { background-image: url('../image/gym.jpg'); }
 
+/* --- About Section --- */
+#aboutsection {
+    background-color: var(--light-bg);
+}
+
+.about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 50px;
+    align-items: center;
+}
+
+.about-images {
+    position: relative;
+    min-height: 380px;
+}
+
+.about-img {
+    position: absolute;
+    border-radius: 10px;
+    object-fit: cover;
+    box-shadow: var(--shadow-dark);
+}
+
+.about-img.img-main {
+    width: 75%;
+    height: 320px;
+    top: 0;
+    left: 0;
+    z-index: 1;
+}
+
+.about-img.img-accent {
+    width: 55%;
+    height: 220px;
+    bottom: 0;
+    right: 0;
+    z-index: 2;
+    border: 6px solid var(--light-bg);
+}
+
+.about-text .head-title {
+    text-align: left;
+}
+.about-text .head-title::after {
+    left: 0;
+    transform: none;
+}
+
+.about-text p {
+    color: var(--text-muted);
+    margin: 20px 0 30px;
+    font-size: 1rem;
+    line-height: 1.8;
+}
+
+.about-stats {
+    display: flex;
+    gap: 40px;
+    flex-wrap: wrap;
+}
+
+.about-stats .stat-num {
+    display: block;
+    font-family: var(--font-heading);
+    font-size: 2.2rem;
+    color: var(--primary-color);
+    font-weight: 700;
+}
+
+.about-stats .stat-label {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* --- Testimonials Section --- */
+#testimonialsection {
+    background-color: #fff;
+}
+
+.testimonial-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 25px;
+}
+
+.testimonial-card {
+    background: var(--light-bg);
+    border: 1px solid #eee;
+    border-radius: 10px;
+    padding: 30px;
+    position: relative;
+}
+
+.testimonial-stars {
+    color: var(--primary-color);
+    margin-bottom: 15px;
+    font-size: 0.9rem;
+}
+
+.testimonial-card p {
+    color: var(--text-dark);
+    font-style: italic;
+    line-height: 1.7;
+    margin-bottom: 20px;
+    min-height: 100px;
+}
+
+.testimonial-author {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.testimonial-avatar {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    background: var(--primary-color);
+    color: var(--dark-bg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-family: var(--font-heading);
+    flex-shrink: 0;
+}
+
+.testimonial-author strong {
+    display: block;
+    font-size: 0.95rem;
+    color: var(--dark-bg);
+}
+
+.testimonial-author span {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+}
+
+/* --- Floating Action Buttons --- */
+.float-actions {
+    position: fixed;
+    right: 25px;
+    bottom: 25px;
+    z-index: 900;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.float-btn {
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-size: 22px;
+    text-decoration: none;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.25);
+    transition: var(--transition-smooth);
+    border: none;
+    cursor: pointer;
+    opacity: 0;
+    transform: translateY(15px);
+    pointer-events: none;
+}
+
+.float-btn.show {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+}
+
+.float-btn:hover {
+    transform: translateY(-4px);
+}
+.float-btn.show:hover {
+    transform: translateY(-4px);
+}
+
+.float-btn.whatsapp {
+    background: #25d366;
+    opacity: 1;
+    transform: none;
+    pointer-events: auto;
+}
+
+.float-btn.totop {
+    background: var(--dark-bg);
+}
+
 /* --- Footer --- */
 footer {
     background: var(--darker-bg);
@@ -650,9 +845,16 @@ footer {
 }
 
 /* --- Responsive --- */
-@media (max-width: 768px) {
+
+/* Tablets & small laptops: the centered nav-links + CTA no longer fit
+   comfortably next to the logo, so collapse into the hamburger menu here
+   instead of waiting for the phone breakpoint. */
+@media (max-width: 991px) {
     .menu-toggle {
         display: block;
+    }
+    .btn-nav-book {
+        display: none;
     }
     .nav-links {
         position: absolute;
@@ -673,6 +875,33 @@ footer {
     .nav-links li {
         margin: 15px 0;
     }
+    .about-grid {
+        grid-template-columns: 1fr;
+        gap: 30px;
+    }
+    .about-images {
+        min-height: 320px;
+        max-width: 480px;
+        margin: 0 auto;
+        width: 100%;
+    }
+    .about-text .head-title,
+    .about-text .head-title::after {
+        text-align: center;
+    }
+    .about-text {
+        text-align: center;
+    }
+    .about-text .head-title::after {
+        left: 50%;
+        transform: translateX(-50%);
+    }
+    .about-stats {
+        justify-content: center;
+    }
+}
+
+@media (max-width: 768px) {
     .welcometag {
         font-size: 3rem;
     }
@@ -689,5 +918,66 @@ footer {
     }
     .social-icons {
         justify-content: center;
+    }
+    .section-container {
+        padding: 50px 20px;
+    }
+    .about-images {
+        min-height: 260px;
+    }
+    .about-img.img-main {
+        height: 240px;
+    }
+    .about-img.img-accent {
+        height: 160px;
+    }
+}
+
+/* Small phones */
+@media (max-width: 480px) {
+    .navbar-hotel {
+        padding: 0 4%;
+    }
+    .logo p {
+        font-size: 18px;
+    }
+    .logo img {
+        height: 38px;
+        margin-right: 10px;
+    }
+    .welcometag {
+        font-size: 2.2rem;
+    }
+    .subtitle {
+        font-size: 1rem;
+        letter-spacing: 3px;
+    }
+    .btn-explore {
+        padding: 12px 28px;
+        font-size: 12px;
+    }
+    .guestdetailpanelform {
+        padding: 20px;
+        width: 94%;
+        max-height: 90vh;
+        overflow-y: auto;
+    }
+    .head-title {
+        font-size: 1.6rem;
+    }
+    .about-stats {
+        gap: 20px;
+    }
+    .about-stats .stat-num {
+        font-size: 1.7rem;
+    }
+    .float-actions {
+        right: 15px;
+        bottom: 15px;
+    }
+    .float-btn {
+        width: 46px;
+        height: 46px;
+        font-size: 19px;
     }
 }

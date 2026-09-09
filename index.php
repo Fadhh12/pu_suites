@@ -185,8 +185,43 @@ include 'config.php';
     </div>
   </section>
     
+  <!-- About Section -->
+  <section id="aboutsection">
+    <div class="section-container">
+      <div class="about-grid">
+        <div class="about-images" data-aos="fade-right">
+          <img class="about-img img-main" src="./image/hotel4.jpg" alt="PU Suites grand lobby" loading="lazy" decoding="async">
+          <img class="about-img img-accent" src="./image/hotel2.jpg" alt="PU Suites guest room" loading="lazy" decoding="async">
+        </div>
+        <div class="about-text" data-aos="fade-left">
+          <h2 class="head-title">A Legacy of Hospitality</h2>
+          <p>
+            Nestled in the heart of Cikarang, PU SUITES blends timeless elegance with modern comfort.
+            Every detail, from our hand-picked furnishings to our attentive staff, is crafted to make
+            your stay feel effortless. Whether you're here for business or leisure, we promise an
+            experience that lingers long after check-out.
+          </p>
+          <div class="about-stats">
+            <div>
+              <span class="stat-num">15+</span>
+              <span class="stat-label">Years of Service</span>
+            </div>
+            <div>
+              <span class="stat-num">40+</span>
+              <span class="stat-label">Rooms & Suites</span>
+            </div>
+            <div>
+              <span class="stat-num">4.8/5</span>
+              <span class="stat-label">Guest Rating</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- Rooms Section -->
-  <section id="secondsection"> 
+  <section id="secondsection">
     <div class="section-container">
       <div class="section-header" data-aos="fade-up">
         <h2 class="head-title">Our Rooms & Suites</h2>
@@ -287,6 +322,57 @@ include 'config.php';
     </div>
   </section>
 
+  <!-- Testimonials Section -->
+  <section id="testimonialsection">
+    <div class="section-container">
+      <div class="section-header" data-aos="fade-up">
+        <h2 class="head-title">What Our Guests Say</h2>
+        <p class="head-subtitle">Real stories from real stays</p>
+      </div>
+      <div class="testimonial-grid">
+        <div class="testimonial-card" data-aos="fade-up" data-aos-delay="100">
+          <div class="testimonial-stars">
+            <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+          </div>
+          <p>"Absolutely stunning property. The staff went above and beyond and the room was spotless. We'll definitely be back."</p>
+          <div class="testimonial-author">
+            <div class="testimonial-avatar">A</div>
+            <div>
+              <strong>Andini R.</strong>
+              <span>Jakarta, Indonesia</span>
+            </div>
+          </div>
+        </div>
+        <div class="testimonial-card" data-aos="fade-up" data-aos-delay="200">
+          <div class="testimonial-stars">
+            <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+          </div>
+          <p>"Booking was smooth and the facilities exceeded expectations. The pool and spa were a perfect way to unwind."</p>
+          <div class="testimonial-author">
+            <div class="testimonial-avatar">M</div>
+            <div>
+              <strong>Marcus T.</strong>
+              <span>Singapore</span>
+            </div>
+          </div>
+        </div>
+        <div class="testimonial-card" data-aos="fade-up" data-aos-delay="300">
+          <div class="testimonial-stars">
+            <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star-half-stroke"></i>
+          </div>
+          <p>"Great value for a luxury stay. The Deluxe Room was spacious and the breakfast spread was fantastic."</p>
+          <div class="testimonial-author">
+            <div class="testimonial-avatar">S</div>
+            <div>
+              <strong>Sarah K.</strong>
+              <span>Melbourne, Australia</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- Footer -->
   <footer id="contactus">
     <div class="footer-content">
@@ -310,6 +396,16 @@ include 'config.php';
         <p><a href="login.php" style="color: #666; text-decoration: none; font-size: 12px;">Admin Login</a></p>
     </div>
   </footer>
+
+  <!-- Floating Actions -->
+  <div class="float-actions">
+    <a class="float-btn whatsapp" href="https://wa.me/6281234567890" target="_blank" rel="noopener" aria-label="Chat on WhatsApp">
+      <i class="fa-brands fa-whatsapp"></i>
+    </a>
+    <button class="float-btn totop" id="backToTop" aria-label="Back to top">
+      <i class="fa-solid fa-arrow-up"></i>
+    </button>
+  </div>
 
   <!-- Scripts -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
@@ -356,6 +452,19 @@ include 'config.php';
     function toggleMenu() {
         document.querySelector('.nav-links').classList.toggle('active');
     }
+
+    // Back to Top Button
+    const backToTop = document.getElementById('backToTop');
+    window.addEventListener('scroll', function() {
+        if (window.scrollY > 400) {
+            backToTop.classList.add('show');
+        } else {
+            backToTop.classList.remove('show');
+        }
+    });
+    backToTop.addEventListener('click', function() {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
   </script>
 </body>
 </html>
