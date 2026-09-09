@@ -42,7 +42,7 @@ if (isset($_POST['guestdetailedit'])) {
 
     // Recompute the linked payment row (if this booking has already been
     // confirmed) so the invoice/ledger stays in sync with the edit.
-    $roomRates = ['Superior Room' => 3000, 'Deluxe Room' => 2000, 'Guest House' => 1500, 'Single Room' => 1000];
+    $roomRates = ROOM_RATES; // shared with the public site -- see config.php
     $bedRates = ['Single' => 1, 'Double' => 2, 'Triple' => 3, 'Quad' => 4, 'None' => 0];
     $mealMultipliers = ['Room only' => 0, 'Breakfast' => 2, 'Half Board' => 3, 'Full Board' => 4];
 

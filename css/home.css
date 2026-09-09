@@ -571,6 +571,20 @@ h1, h2, h3, h4, h5, h6 {
     color: var(--dark-bg);
 }
 
+.room-price {
+    font-size: 1.15rem;
+    font-weight: 600;
+    color: var(--dark-bg);
+    margin-bottom: 10px;
+}
+
+.room-price span {
+    font-size: 0.8rem;
+    font-weight: 400;
+    color: var(--text-muted);
+    text-transform: lowercase;
+}
+
 .room-amenities {
     display: flex;
     justify-content: center;

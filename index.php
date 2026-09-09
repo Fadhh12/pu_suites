@@ -119,10 +119,9 @@ include 'config.php';
                     <h4>Reservation Details</h4>
                     <select name="RoomType" class="selectinput" required>
 						<option value="" disabled selected>Type Of Room</option>
-                        <option value="Superior Room">SUPERIOR ROOM</option>
-                        <option value="Deluxe Room">DELUXE ROOM</option>
-						<option value="Guest House">GUEST HOUSE</option>
-						<option value="Single Room">SINGLE ROOM</option>
+                        <?php foreach (ROOM_RATES as $roomTypeName => $rate): ?>
+                            <option value="<?php echo htmlspecialchars($roomTypeName); ?>"><?php echo strtoupper(htmlspecialchars($roomTypeName)); ?> &mdash; $<?php echo number_format($rate); ?>/night</option>
+                        <?php endforeach; ?>
                     </select>
                     <select name="Bed" class="selectinput" required>
 						<option value="" disabled selected>Bedding Type</option>
@@ -251,6 +250,7 @@ include 'config.php';
           <a href="room-detail.php?type=superior" class="room-image h1" aria-label="View Superior Room details and photos"></a>
           <div class="room-content">
             <a href="room-detail.php?type=superior" class="room-title-link"><h3>Superior Room</h3></a>
+            <p class="room-price">From $<?php echo number_format(ROOM_RATES['Superior Room']); ?> <span>/ night</span></p>
             <div class="room-amenities">
               <i class="fa-solid fa-wifi" title="Free Wifi"></i>
               <i class="fa-solid fa-burger" title="Room Service"></i>
@@ -270,6 +270,7 @@ include 'config.php';
           <a href="room-detail.php?type=deluxe" class="room-image h2" aria-label="View Deluxe Room details and photos"></a>
           <div class="room-content">
             <a href="room-detail.php?type=deluxe" class="room-title-link"><h3>Deluxe Room</h3></a>
+            <p class="room-price">From $<?php echo number_format(ROOM_RATES['Deluxe Room']); ?> <span>/ night</span></p>
             <div class="room-amenities">
               <i class="fa-solid fa-wifi" title="Free Wifi"></i>
               <i class="fa-solid fa-burger" title="Room Service"></i>
@@ -288,6 +289,7 @@ include 'config.php';
           <a href="room-detail.php?type=guesthouse" class="room-image h3" aria-label="View Guest House details and photos"></a>
           <div class="room-content">
             <a href="room-detail.php?type=guesthouse" class="room-title-link"><h3>Guest House</h3></a>
+            <p class="room-price">From $<?php echo number_format(ROOM_RATES['Guest House']); ?> <span>/ night</span></p>
             <div class="room-amenities">
               <i class="fa-solid fa-wifi" title="Free Wifi"></i>
               <i class="fa-solid fa-burger" title="Room Service"></i>
@@ -305,6 +307,7 @@ include 'config.php';
           <a href="room-detail.php?type=single" class="room-image h4" aria-label="View Single Room details and photos"></a>
           <div class="room-content">
             <a href="room-detail.php?type=single" class="room-title-link"><h3>Single Room</h3></a>
+            <p class="room-price">From $<?php echo number_format(ROOM_RATES['Single Room']); ?> <span>/ night</span></p>
             <div class="room-amenities">
               <i class="fa-solid fa-wifi" title="Free Wifi"></i>
               <i class="fa-solid fa-burger" title="Room Service"></i>

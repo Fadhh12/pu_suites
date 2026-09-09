@@ -108,6 +108,10 @@ if (!isset($rooms[$type])) {
     $type = 'superior';
 }
 $room = $rooms[$type];
+// ROOM_RATES (config.php) keys by the RoomType string stored in the DB --
+// the same string used for booking/payment -- so it's the source of truth
+// for the price shown here too.
+$room['price'] = ROOM_RATES[$room['name']] ?? null;
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -204,6 +208,17 @@ $room = $rooms[$type];
             color: var(--dark-bg);
             margin-bottom: 20px;
         }
+        .detail-price {
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: var(--dark-bg);
+            margin-bottom: 15px;
+        }
+        .detail-price span {
+            font-size: 0.95rem;
+            font-weight: 400;
+            color: var(--text-muted);
+        }
         .room-specs {
             display: flex;
             flex-wrap: wrap;
@@ -262,6 +277,17 @@ $room = $rooms[$type];
         .room-booking-card h3 {
             color: var(--dark-bg);
             margin-bottom: 10px;
+        }
+        .booking-price {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 15px;
+        }
+        .booking-price span {
+            font-size: 0.85rem;
+            font-weight: 400;
+            color: var(--text-muted);
         }
         .room-booking-card p {
             color: var(--text-muted);
@@ -382,6 +408,10 @@ $room = $rooms[$type];
           <p class="tagline"><?php echo htmlspecialchars($room['tagline']); ?></p>
           <h1><?php echo htmlspecialchars($room['name']); ?></h1>
 
+          <?php if ($room['price'] !== null): ?>
+            <p class="detail-price">$<?php echo number_format($room['price']); ?> <span>/ night</span></p>
+          <?php endif; ?>
+
           <div class="room-specs">
             <div class="spec"><i class="fa-solid fa-ruler-combined"></i> <?php echo htmlspecialchars($room['size']); ?></div>
             <div class="spec"><i class="fa-solid fa-bed"></i> <?php echo htmlspecialchars($room['bed']); ?></div>
@@ -401,6 +431,9 @@ $room = $rooms[$type];
         <div data-aos="fade-up" data-aos-delay="100">
           <div class="room-booking-card">
             <h3><?php echo htmlspecialchars($room['name']); ?></h3>
+            <?php if ($room['price'] !== null): ?>
+              <p class="booking-price">$<?php echo number_format($room['price']); ?> <span>/ night</span></p>
+            <?php endif; ?>
             <p>Ready to stay? Fill out our reservation form and our team will confirm availability with you shortly.</p>
             <a href="contact.php?room=<?php echo urlencode($room['name']); ?>#book" class="btn-submit-booking" style="display: inline-flex; align-items: center; justify-content: center; text-decoration: none;">Book This Room</a>
             <a href="index.php#secondsection" class="btn-view-room">See All Rooms</a>
@@ -422,6 +455,9 @@ $room = $rooms[$type];
             <a href="room-detail.php?type=<?php echo urlencode($slug); ?>" class="room-image" style="background-image: url('<?php echo htmlspecialchars($r['hero']); ?>'); background-size: cover; background-position: center;" aria-label="View <?php echo htmlspecialchars($r['name']); ?> details"></a>
             <div class="room-content">
               <a href="room-detail.php?type=<?php echo urlencode($slug); ?>" class="room-title-link"><h3><?php echo htmlspecialchars($r['name']); ?></h3></a>
+              <?php $rPrice = ROOM_RATES[$r['name']] ?? null; if ($rPrice !== null): ?>
+                <p class="room-price">From $<?php echo number_format($rPrice); ?> <span>/ night</span></p>
+              <?php endif; ?>
               <div class="room-actions">
                 <a href="room-detail.php?type=<?php echo urlencode($slug); ?>" class="btn-view-room">View Details</a>
               </div>

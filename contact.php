@@ -268,10 +268,9 @@ include 'config.php';
                       <label>Room Type</label>
                       <select name="RoomType" class="form-select" required>
                           <option value="" disabled selected>Select Room</option>
-                          <option value="Superior Room">SUPERIOR ROOM</option>
-                          <option value="Deluxe Room">DELUXE ROOM</option>
-                          <option value="Guest House">GUEST HOUSE</option>
-                          <option value="Single Room">SINGLE ROOM</option>
+                          <?php foreach (ROOM_RATES as $roomTypeName => $rate): ?>
+                              <option value="<?php echo htmlspecialchars($roomTypeName); ?>"><?php echo strtoupper(htmlspecialchars($roomTypeName)); ?> &mdash; $<?php echo number_format($rate); ?>/night</option>
+                          <?php endforeach; ?>
                       </select>
                   </div>
                   <div class="form-group">

@@ -29,7 +29,7 @@ if ($row && $row['stat'] === 'NotConfirm') {
     $result = mysqli_stmt_execute($stmt);
 
     if ($result) {
-        $roomRates = ['Superior Room' => 3000, 'Deluxe Room' => 2000, 'Guest House' => 1500, 'Single Room' => 1000];
+        $roomRates = ROOM_RATES; // shared with the public site -- see config.php
         $bedRates = ['Single' => 1, 'Double' => 2, 'Triple' => 3, 'Quad' => 4, 'None' => 0];
         $mealMultipliers = ['Room only' => 0, 'Breakfast' => 2, 'Half Board' => 3, 'Full Board' => 4];
 

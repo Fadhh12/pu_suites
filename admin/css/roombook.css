@@ -195,8 +195,12 @@ body.has-summary .roombooktable {
     background-color: #f8fafc;
 }
 
-/* Action Buttons in Table */
-.action {
+/* Action Buttons in Table.
+   Scoped to td.action only -- the "Action" *header* cell shares this class
+   just to reuse the name, but it's a <th>, not a <td>. `display: flex` on a
+   table header breaks it out of normal table layout, which desyncs its
+   border from the column below it (the misaligned line under "ACTION"). */
+td.action {
     display: flex;
     justify-content: center;
     gap: 8px;

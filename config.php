@@ -37,3 +37,15 @@ $conn = mysqli_connect($server, $username, $password, $database);
 if (!$conn) {
     die('Database connection failed: ' . mysqli_connect_error());
 }
+
+// Base nightly rate per room type (USD), before the bed/meal add-ons applied
+// at booking-confirm time. Single source of truth -- the public site reads
+// this to show prices on the room cards/detail pages, and
+// admin/roomconfirm.php reads the same constant to total up a booking, so
+// the advertised price and the billed price can never drift apart.
+define('ROOM_RATES', [
+    'Superior Room' => 3000,
+    'Deluxe Room'   => 2000,
+    'Guest House'   => 1500,
+    'Single Room'   => 1000,
+]);
