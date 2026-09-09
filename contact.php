@@ -318,9 +318,11 @@ include 'config.php';
                 $cout = $_POST['cout'];
 
                 $sta = "NotConfirm";
-                $sql = "INSERT INTO roombook(Name,Email,Country,Phone,RoomType,Bed,NoofRoom,Meal,cin,cout,stat,nodays) VALUES ('$Name','$Email','$Country','$Phone','$RoomType','$Bed','$NoofRoom','$Meal','$cin','$cout','$sta',datediff('$cout','$cin'))";
-                $result = mysqli_query($conn, $sql);
-                
+                $sql = "INSERT INTO roombook(Name,Email,Country,Phone,RoomType,Bed,NoofRoom,Meal,cin,cout,stat,nodays) VALUES (?,?,?,?,?,?,?,?,?,?,?,datediff(?,?))";
+                $stmt = mysqli_prepare($conn, $sql);
+                mysqli_stmt_bind_param($stmt, "sssssssssssss", $Name, $Email, $Country, $Phone, $RoomType, $Bed, $NoofRoom, $Meal, $cin, $cout, $sta, $cout, $cin);
+                $result = mysqli_stmt_execute($stmt);
+
                 if ($result) {
                     echo "<script>
                         document.addEventListener('DOMContentLoaded', function() {
