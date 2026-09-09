@@ -17,7 +17,7 @@
     <!-- fontowesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A==" crossorigin="anonymous" referrerpolicy="no-referrer"/>
 	<!-- css for table and search bar -->
-	<link rel="stylesheet" href="css/roombook.css">
+	<link rel="stylesheet" href="css/roombook.css?v=2">
 </head>
 <body class="has-summary">
 	<div class="roomsummary">
