@@ -2,9 +2,11 @@ SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
 SET time_zone = "+00:00";
 
-DROP DATABASE IF EXISTS PU_SUITES;
-CREATE DATABASE IF NOT EXISTS PU_SUITES;
-USE PU_SUITES;
+-- Create the database yourself first (phpMyAdmin -> New, or your host's
+-- database panel) and select/USE it before running this file. Shared
+-- hosting (InfinityFree, Hostinger, etc.) blocks DROP/CREATE DATABASE and
+-- assigns you a fixed, prefixed database name, so this file intentionally
+-- does not try to create or select a database itself.
 
 -- 1. Create tables without foreign keys first
 
