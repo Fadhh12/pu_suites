@@ -50,14 +50,10 @@ CREATE TABLE `room` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-CREATE TABLE `signup` (
-  `UserID` int(100) NOT NULL AUTO_INCREMENT,
-  `Username` varchar(50) NOT NULL,
-  `Email` varchar(50) NOT NULL,
-  `Password` varchar(50) NOT NULL,
-  PRIMARY KEY (`UserID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
+-- Note: there is no customer login/account table (`signup`, with a
+-- `roombook.user_id` FK to it) here on purpose. Booking is guest
+-- checkout only -- no PHP file ever wrote to that table or column, so an
+-- earlier version of this dump carried a fully unused table+column pair.
 CREATE TABLE `roombook` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
   `Name` varchar(50) NOT NULL,
@@ -73,12 +69,9 @@ CREATE TABLE `roombook` (
   `nodays` int(50) NOT NULL,
   `stat` varchar(30) NOT NULL,
   `room_id` int(30) DEFAULT NULL,
-  `user_id` int(100) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `fk_roombook_room` (`room_id`),
-  KEY `fk_roombook_user` (`user_id`),
-  CONSTRAINT `fk_roombook_room` FOREIGN KEY (`room_id`) REFERENCES `room` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
-  CONSTRAINT `fk_roombook_user` FOREIGN KEY (`user_id`) REFERENCES `signup` (`UserID`) ON DELETE SET NULL ON UPDATE CASCADE
+  CONSTRAINT `fk_roombook_room` FOREIGN KEY (`room_id`) REFERENCES `room` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 CREATE TABLE `payment` (
@@ -134,11 +127,8 @@ INSERT INTO `room` (`id`, `type`, `bedding`) VALUES
 (27, 'Guest House', 'Double'),
 (30, 'Deluxe Room', 'Single');
 
-INSERT INTO `signup` (`UserID`, `Username`, `Email`, `Password`) VALUES
-(1, 'Steven Glecy', 'glecy@gmail.com', '123');
-
-INSERT INTO `roombook` (`id`, `Name`, `Email`, `Country`, `Phone`, `RoomType`, `Bed`, `Meal`, `NoofRoom`, `cin`, `cout`, `nodays`, `stat`, `room_id`, `user_id`) VALUES
-(1, 'Steven Glecy', 'glecy@gmail.com', 'Indonesia', '9313346569', 'Single Room', 'Single', 'Room only', '1', '2022-11-09', '2022-11-10', 1, 'Confirm', 20, 1);
+INSERT INTO `roombook` (`id`, `Name`, `Email`, `Country`, `Phone`, `RoomType`, `Bed`, `Meal`, `NoofRoom`, `cin`, `cout`, `nodays`, `stat`, `room_id`) VALUES
+(1, 'Steven Glecy', 'glecy@gmail.com', 'Indonesia', '9313346569', 'Single Room', 'Single', 'Room only', '1', '2022-11-09', '2022-11-10', 1, 'Confirm', 20);
 
 INSERT INTO `payment` (`id`, `Name`, `Email`, `RoomType`, `Bed`, `NoofRoom`, `cin`, `cout`, `noofdays`, `roomtotal`, `bedtotal`, `meal`, `mealtotal`, `finaltotal`, `booking_id`) VALUES
 (1, 'Steven Glecy', 'glecy@gmail.com', 'Single Room', 'Single', 1, '2022-11-09', '2022-11-10', 1, 1000.00, 10.00, 'Room only', 0.00, 1010.00, 1);
