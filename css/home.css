@@ -76,9 +76,10 @@ h1, h2, h3, h4, h5, h6 {
     width: 100%;
     height: 80px;
     z-index: 1000;
-    display: flex;
-    justify-content: space-between;
+    display: grid;
+    grid-template-columns: auto 1fr auto;
     align-items: center;
+    gap: 20px;
     padding: 0 5%;
     background: transparent;
     transition: var(--transition-smooth);
@@ -117,9 +118,39 @@ h1, h2, h3, h4, h5, h6 {
     list-style: none;
     margin: 0;
     padding: 0;
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
+    justify-content: center;
+    grid-column: 2;
+}
+
+.nav-cta {
+    grid-column: 3;
+    justify-self: end;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.btn-nav-book {
+    display: inline-flex;
+    align-items: center;
+    text-decoration: none;
+    padding: 10px 22px;
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--dark-bg);
+    background-color: var(--primary-color);
+    border: 2px solid var(--primary-color);
+    cursor: pointer;
+    transition: var(--transition-smooth);
+    font-family: var(--font-body);
+    white-space: nowrap;
+}
+
+.btn-nav-book:hover {
+    background-color: transparent;
+    color: var(--text-light);
 }
 
 .menu-toggle {
@@ -127,6 +158,8 @@ h1, h2, h3, h4, h5, h6 {
     color: var(--text-light);
     font-size: 24px;
     cursor: pointer;
+    background: none;
+    border: none;
 }
 
 .nav-links li {

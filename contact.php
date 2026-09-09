@@ -167,15 +167,19 @@ include 'config.php';
       <img class="bluebirdlogo" src="./image/President_University_Logo.png" alt="logo">
       <p>PU SUITES</p>
     </div>
-    <div class="menu-toggle" onclick="toggleMenu()">
-        <i class="fa-solid fa-bars"></i>
-    </div>
     <ul class="nav-links">
       <li><a href="index.php">Home</a></li>
+      <li><a href="index.php#aboutsection">About</a></li>
       <li><a href="index.php#secondsection">Rooms & Suites</a></li>
       <li><a href="index.php#thirdsection">Facilities</a></li>
-      <li><a href="contact.php" style="color: var(--primary-color);">Contact & Booking</a></li>
+      <li><a href="contact.php" style="color: var(--primary-color);">Contact</a></li>
     </ul>
+    <div class="nav-cta">
+      <a href="#book" class="btn-nav-book">Book Now</a>
+      <button class="menu-toggle" onclick="toggleMenu()" aria-label="Toggle menu">
+        <i class="fa-solid fa-bars"></i>
+      </button>
+    </div>
   </nav>
 
   <!-- Header -->

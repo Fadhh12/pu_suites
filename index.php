@@ -30,15 +30,19 @@ include 'config.php';
       <img class="bluebirdlogo" src="./image/President_University_Logo.png" alt="logo">
       <p>PU SUITES</p>
     </div>
-    <div class="menu-toggle" onclick="toggleMenu()">
-        <i class="fa-solid fa-bars"></i>
-    </div>
     <ul class="nav-links">
       <li><a href="#firstsection" onclick="toggleMenu()">Home</a></li>
+      <li><a href="#aboutsection" onclick="toggleMenu()">About</a></li>
       <li><a href="#secondsection" onclick="toggleMenu()">Rooms & Suites</a></li>
       <li><a href="#thirdsection" onclick="toggleMenu()">Facilities</a></li>
-      <li><a href="contact.php">Contact & Booking</a></li>
+      <li><a href="contact.php" onclick="toggleMenu()">Contact</a></li>
     </ul>
+    <div class="nav-cta">
+      <button class="btn-nav-book" onclick="openbookbox()">Book Now</button>
+      <button class="menu-toggle" onclick="toggleMenu()" aria-label="Toggle menu">
+        <i class="fa-solid fa-bars"></i>
+      </button>
+    </div>
   </nav>
 
   <!-- Hero Section -->
