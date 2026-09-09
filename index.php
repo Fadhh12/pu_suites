@@ -18,7 +18,7 @@ include 'config.php';
     <meta property="og:image" content="./image/hotel1.jpg">
     <link rel="icon" type="image/png" href="./image/President_University_Logo.png">
     <link rel="preload" as="image" href="./image/hotel1.jpg" fetchpriority="high">
-    <link rel="stylesheet" href="./css/home.css">
+    <link rel="stylesheet" href="./css/home.css?v=3">
     <title>PU SUITES - Luxury Hotel & Resort</title>
     <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">

@@ -41,7 +41,10 @@ body {
 /* Scroll Snapping */
 html {
     scroll-behavior: smooth;
-    scroll-snap-type: y mandatory;
+    /* "proximity" (not "mandatory") because most sections are content-height,
+       not exactly 100vh -- mandatory snapping fights the user on shorter
+       viewports/mobile and can feel like the page is stuck mid-scroll. */
+    scroll-snap-type: y proximity;
 }
 
 section, header, footer, #contactus {

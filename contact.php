@@ -11,7 +11,7 @@ include 'config.php';
     <meta name="description" content="Get in touch with PU SUITES or book your room directly. Find our location, phone, email, and a full reservation form.">
     <meta name="theme-color" content="#111111">
     <link rel="icon" type="image/png" href="./image/President_University_Logo.png">
-    <link rel="stylesheet" href="./css/home.css">
+    <link rel="stylesheet" href="./css/home.css?v=3">
     <title>Contact & Booking - PU SUITES</title>
     <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
